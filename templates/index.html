@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>คำนวณ g(x) และ f(x)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>คำนวณ g(x) และ f(x)</h1>
+    <form method="post">
+        <label>กรอกค่า x (จำนวนเต็มบวก): </label>
+        <input type="number" name="x" min="1" step="1" required>
+        <button type="submit">คำนวณ</button>
+    </form>
+
+    {% if g_result is not none and f_result is not none %}
+        <h2>ผลลัพธ์:</h2>
+        <p><strong>g(x)</strong> = {{ g_result }}</p>
+        <p><strong>f(x)</strong> = {{ f_result }}</p>
+
+        <canvas id="resultChart" width="400" height="200"></canvas>
+        <script>
+            const ctx = document.getElementById('resultChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['g(x)', 'f(x)'],
+                    datasets: [{
+                        label: 'ค่าของฟังก์ชัน',
+                        data: [{{ g_result }}, {{ f_result }}],
+                        backgroundColor: ['#4CAF50', '#2196F3'],
+                        borderColor: ['#388E3C', '#1976D2'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+</body>
+</html>
